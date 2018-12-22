@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="../../node_modules/vue/dist/vue.min.js"></script>
+</head>
+<body>
+  <div id="app">
+    <p>{{ msg | msgFormate | pForamte }}</p>
+  </div>
+
+  <div id="contain">
+    <!-- 可以定义多个过滤器，语法如下： -->
+    <!-- 注意，各个Vm实例间的私有过滤不能共享，不报错，但没效果 -->
+    <h1>{{ h1 | msgFormate | h1Formate}}</h1>
+
+  </div>
+</body>
+</html>
+<script>
+  //定义全局过滤器,过滤器可以用在两个地方：双花括号插值和 v-bind 表达式
+  //全局过滤器，在不同的vm实例中可以用
+
+  Vue.filter('msgFormate',(msg) => {
+      return msg+'¥'
+    })
+
+
+  const vm1 = new Vue({
+    el:'#app',
+    data:{
+      msg:100
+    },
+    //与data、methods平级的私有过滤器,全局和私有都存在时，默认优先私有
+    filters:{
+      pForamte (content){
+        return "我是P"+content
+      }
+
+    }
+
+  })
+
+  const  vm2 = new Vue({
+    el:'#contain',
+    data:{
+      h1:"显示符号"
+    },
+    filters: {
+      h1Formate (value) {
+        return '我是h1'+ value
+      }
+    }
+  })
+
+
+
+</script>
