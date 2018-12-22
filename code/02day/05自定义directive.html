@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="../../node_modules/vue/dist/vue.min.js"></script>
+</head>
+<body>
+  <div id="app">
+      <!-- Vue强大的是，当官方提供的指令无法满足需求时，可自定义 -->
+      <input type="text" name="" id="btn" v-model="msg" v-focus>
+
+  </div>
+
+</body>
+</html>
+<script>
+  //类似于过滤器，可定义 全局 || 私有 自定义指令
+    Vue.directive('focus',{
+
+      // 参数1: 指令名, 不需要v-开头, 但是在使用时需要加上v-便于Vue编译模板时区分普通属性和指令
+
+      // 参数2: 指令的钩子函数(在特定阶段执行的函数)
+
+
+      bind (el) {
+        //仅能设置内联样式类 :只调用一次，指令第一次绑定到元素时调用。在这里可以进行一次性的初始化设置。
+        document.getElementById('btn').style.width='50px'
+      },
+      inserted (el) {
+        //用于绑定方法：被绑定元素插入父节点时调用,触发一次
+        document.getElementById('btn').focus()
+      },
+      update () {
+        //所在组件的 VNode 更新时调用,但是可能发生在其子 VNode 更新之前。触发多次
+
+      },
+      componentUpdated () {
+        //指令所在组件的 VNode 及其子 VNode 全部更新后调用
+
+      },
+      unbind () {
+        //解绑指令时调用
+
+      }
+    })
+
+  const vm = new Vue({
+    el:"#app",
+    data:{
+      msg:'我需要自动被聚焦'
+    },
+    methods:{
+
+    }
+
+  })
+</script>
