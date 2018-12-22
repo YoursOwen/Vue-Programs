@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="../../node_modules/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app">
+
+
+
+
+
+        <input type="button" value="浪起" @click="lang">
+
+
+
+        <input type="button" value="低调" @click="stop">
+        <p>{{ msg }}</p>
+
+    </div>
+    <script>
+        const vm = new Vue({
+            el: "#app",
+            data: { //data就是当前页面的数据仓库
+                msg: '猥琐发育别浪~~!',
+                timerId: null
+            },
+            methods: {
+                lang() {
+                    clearInterval(this.timerId)
+                    this.timerId = setInterval(() => {
+
+                        // vue在创建时会将data和methods中所有的成员挂载到自己的实例对象上
+                        // console.log(this.msg)
+                        // console.log(this)  相当于vue.lang()
+                        let start = this.msg.substr(0, 1)
+                        let end = this.msg.substr(1)
+
+                        //Vue特点,当Model层数据发生改变时,自动刷新view层引用的数据.
+                        this.msg = end + start
+                    }, 400)
+
+                },
+                stop() {
+                    clearInterval(this.timerId)
+                }
+            }
+
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="../../node_modules/vue/dist/vue.js"></script>
+  <style>
+  .fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+    }
+  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+    }
+
+  </style>
+</head>
+<body>
+  <div id="app">
+    <span v-text="msg"></span>
+    <a href="" >{{ msg2 }}</a>
+
+    <transition name="fade">
+        <input type="button" :value="msg" v-bind:title="msg3" v-if="seen">
+    </transition>
+
+  </div>
+
+  <script>
+    // new Date() Fri Dec 21 2018 16:01:11 GMT+0800
+    // new Date().toDateString() Fri Dec 21 2018
+    // new Date().toLocaleDateString() 2018/12/21
+
+
+    const vm = new Vue({
+      el:'#app',
+      data:{
+        msg:"你好",
+        msg2:'hi',
+        msg3:"页面加载于"+ new Date().toLocaleDateString(),
+        seen:false
+      },
+      methods:{}
+    })
+
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="../../node_modules/vue/dist/vue.js"></script>
+</head>
+<body>
+  <div id="app">
+    <!-- 可以循环数组 -->
+    <!-- <ul>
+      <li v-for="item in arr">
+        你好我是{{ item }}号男嘉宾
+      </li>
+    </ul> -->
+
+    <!-- 可以循环对象 -->
+    <div v-for="item in obj">
+      我是{{ item }},我喜欢{{ item }},我的性格是{{ item}}
+    </div>
+
+  </div>
+    <script>
+      const vm = new Vue({
+        el:"#app",
+        data:{
+          arr:[1,2,3,4,5,6,7,8],
+          obj:{
+            name:"袁月",
+            like:"活泼",
+            food:"吃东西"
+
+          }
+        },
+        methods:{}
+      })
+    </script>
+</body>
+</html>

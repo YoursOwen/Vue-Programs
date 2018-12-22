@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="../../node_modules/vue/dist/vue.js"></script>
+  <style>
+    .red {
+      color: red;
+    }
+    .thin {
+      letter-spacing: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <!-- 大量切换，少量固定时使用对象 -->
+    <!-- <h1 :class="{red:flag,thin:flag}">中广核</h1> -->
+    <!-- 少量切换，大量固定时使用数组-->
+    <h1 :class="['red','thin']">中广核</h1>
+  </div>
+  <script>
+    let vm = new Vue({
+      el:"#app",
+      data:{
+        flag:true
+      }
+
+    })
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="../../node_modules/vue/dist/vue.js"></script>
+</head>
+
+<body>
+  <div id="app">
+    <input type="text" v-model="num1">
+
+    <select v-model="opt">
+      <option value="+">+</option>
+      <option value="-">-</option>
+      <option value="*">*</option>
+      <option value="/">/</option>
+    </select>
+
+    <input type="text" v-model="num2">
+
+    <input type="button" value="=" @click='calc'>
+
+    <input type="text" v-model="num3" disabled>
+  </div>
+  <script>
+    // 计算器的重难点在于v-model的使用,Vue中v-model是唯一的能进行双向绑定的指令
+
+    let vm = new Vue({
+      el: "#app",
+      data: {
+        num1: 5,
+        num2: 5,
+        num3: 0,
+        opt: "-"
+      },
+      methods: {
+        calc() {
+          switch (this.opt) {
+            case '+':
+              this.num3 = this.num1 + this.num2;
+              break;
+            case '-':
+              this.num3 = this.num1 - this.num2;
+              break;
+            case '*':
+              this.num3 = this.num1 * this.num2;
+              break;
+            case '/':
+              this.num3 = this.num1 / this.num2;
+              break;
+
+            default:
+              break;
+          }
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>
