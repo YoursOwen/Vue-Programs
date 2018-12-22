@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="../../node_modules/vue/dist/vue.js"></script>
+  <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.css">
+  <!-- 需要用到Jquery吗？？？ -->
+</head>
+
+<body>
+  <div id="app">
+
+
+
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">添加品牌</h3>
+      </div>
+      <div class="panel-body form-inline">
+        <label>
+          Id:
+          <input type="text" class="form-control" v-model="id">
+        </label>
+
+        <label>
+          Name:
+          <input type="text" class="form-control" v-model="name">
+        </label>
+
+        <!-- 在Vue中，使用事件绑定机制，为元素指定处理函数的时候，如果加了小括号，就可以给函数传参了 -->
+        <input type="button" value="添加" class="btn btn-primary" @click="add('hi')">
+
+        <label>
+          搜索名称关键字：
+          <input type="text" class="form-control" v-model="keyword">
+        </label>
+      </div>
+    </div>
+
+
+
+    <table class="table table-bordered table-hover table-striped">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Name</th>
+          <th>Ctime</th>
+          <th>Operation</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- 之前， v-for 中的数据，都是直接从 data 上的list中直接渲染过来的 -->
+        <!-- 现在， 我们自定义了一个 search 方法，同时，把 所有的关键字，通过传参的形式，传递给了 search 方法 -->
+        <!-- 在 search 方法内部，通过 执行 for 循环， 把所有符合 搜索关键字的数据，保存到 一个新数组中，返回 -->
+        <tr v-for="(item,index) in search()" :key="item.id">
+          <td>{{ item.id }}</td>
+          <td>{{ item.name }}</td>
+          <td>{{ item.ctime }}</td>
+          <td><a href="" @click.prevent="del(item.id)">删除</a></td>
+        </tr>
+      </tbody>
+    </table>
+
+
+
+  </div>
+
+  <script>
+    // 创建 Vue 实例，得到 ViewModel
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        id:"",
+        name:"",
+        keyword:"",
+        list:[
+          { id: 1, name: '奔驰', ctime: new Date() },
+          { id: 2, name: '宝马', ctime: new Date() },
+          { id: 3, name: '宝马', ctime: new Date() },
+          { id: 4, name: '宝马', ctime: new Date() },
+          { id: 5, name: '宝马', ctime: new Date() },
+          { id: 6, name: '宝马', ctime: new Date() },
+          { id: 7, name: '宝马', ctime: new Date() },
+        ]
+      },
+      methods: {
+        add (a) {
+
+          let car = {id:this.id ,name:this.name ,ctime:new Date().toLocaleDateString()}
+
+          this.list.push(car)
+
+          this.id = this.name = ''
+        },
+        del (id) {
+
+          // let i = this.list.findIndex( (item) => item.id == id)
+
+          // this.list.splice(i,1)
+
+          //ES6中新增的方法
+          // this.list.some((item)=> {
+          //   if(item.id == id) {
+          //     console.log(item.id)
+          //     this.list.splice(i,1)
+          //     return true
+          //   }
+          // })
+
+          // filter(function (item) {
+          //   //xxxxx
+          //   return true
+          // })
+        },
+        search () {
+          // ES6新方法 Object.prototype.includes()
+
+
+          return this.list.filter(item => item.name.includes(this.keyword.trim()))
+        }
+      }
+    })
+  </script>
+</body>
+
+</html>
