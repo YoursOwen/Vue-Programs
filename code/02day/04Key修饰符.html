@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="../../node_modules/vue/dist/vue.min.js"></script>
+</head>
+<body>
+  <div id="app">
+    <!-- 可以用官方文档提供的别名: .left .enter 等 -->
+    <!-- <input type="text" v-model='msg' @keydown.left="write"> -->
+
+    <!-- 也可以使用keycode -->
+    <!-- <input type="text" v-model='msg' @keydown.13="write"> -->
+
+    <!-- 甚至，你还可以自定义keycode对应的简写名，如： -->
+
+     <input type="text" v-model='msg' @keydown.f1.prevent="write">
+    <p v-text='msg'></p>
+
+  </div>
+
+</body>
+</html>
+<script>
+  //自定义按键修饰符
+  Vue.config.f1 = 112
+
+  const vm = new Vue({
+    el:"#app",
+    data:{
+      msg:"hi~"
+    },
+    methods:{
+      write () {
+        this.msg = "我被改变了哦"
+      }
+    }
+
+  })
+</script>
