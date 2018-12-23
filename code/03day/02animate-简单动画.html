@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="../../node_modules/vue/dist/vue.min.js"></script>
+  <style>
+    .v-enter,
+    .v-leave-to {
+      opacity: 0;
+      transform: translateX(12.5rem)
+    }
+    .v-enter-active,
+    .v-leave-active {
+      transition: all .8s linear;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <input type="button" value="toggle" @click="flag=!flag">
+
+    <transition>
+      <h3 v-if='flag'>YoursOwen Love Peace</h3>
+    </transition>
+
+
+  </div>
+  <script>
+    let vm = new Vue({
+      el: '#app',
+      data: {
+        flag: false
+      },
+      methods: {}
+    })
+  </script>
+</body>
+
+</html>
