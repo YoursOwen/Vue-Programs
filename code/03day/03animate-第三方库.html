@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="../../node_modules/vue/dist/vue.min.js"></script>
+  <!-- 这里将使用 animate.css 第三方库与Vue结合使用 -->
+  <link rel="stylesheet" href="../../node_modules/animate.css">
+  <style>
+    #app {
+      width: 800px;
+      height: 800px;
+      margin: 100px auto;
+      text-align: center;
+
+    }
+    input {
+      margin-bottom: 30px;
+      display: block
+    }
+    p {
+      height: 100px;
+      font-size: 3.125rem;
+      color:pink;
+
+    }
+
+  </style>
+</head>
+
+<body>
+  <div id="app">
+
+    <input type="button" value="戳我" @click="flag=!flag">
+    <!-- 可以将animate基类写在组件的每一个动画钩子上 -->
+    <!-- <transition
+    name='anima-transition'
+    enter-active-class='animated wobble'
+    leave-active-class='animated heartBeat'
+    >
+        <p v-if='flag'>{{ msg }}</p>
+    </transition> -->
+
+
+
+    <!-- 甚至，你可以将基类直接写在 需要设置动画的Dom元素上 -->
+    <!-- 同一个生命周期只能执行一种动画效果，后面会覆盖前面的 -->
+    <transition
+    name='anima-transition'
+    enter-active-class='wobble'
+    leave-active-class='heartBeat'
+    >
+        <p v-if='flag' class="animated">{{ msg }}</p>
+    </transition>
+
+  </div>
+  <script>
+    let vm = new Vue({
+      el: '#app',
+      data: {
+        msg:'❤❤❤❤❤❤❤❤❤❤',
+        flag:false
+      },
+      methods: {}
+    })
+  </script>
+</body>
+
+</html>

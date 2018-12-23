@@ -8,13 +8,13 @@
   <title>Document</title>
   <script src="../../node_modules/vue/dist/vue.min.js"></script>
   <style>
-    .v-enter,
-    .v-leave-to {
+    .anima-enter,
+    .anima-leave-to {
       opacity: 0;
       transform: translateX(12.5rem)
     }
-    .v-enter-active,
-    .v-leave-active {
+    .anima-enter-active,
+    .anima-leave-active {
       transition: all .8s linear;
     }
   </style>
@@ -24,9 +24,18 @@
   <div id="app">
     <input type="button" value="toggle" @click="flag=!flag">
 
-    <transition>
+    <!-- Vue组件---transition，包裹元素后可动画渲染 -->
+    <!-- <transition>
       <h3 v-if='flag'>YoursOwen Love Peace</h3>
+    </transition> -->
+
+
+    <!-- 当然，也支持自定义前缀，避免多个transition组件类名定义冲突 -->
+    <!-- 定义一个name属性名,可替换V-  -->
+    <transition name='anima'>
+        <h3 v-if='flag'>YoursOwen Love Peace</h3>
     </transition>
+
 
 
   </div>

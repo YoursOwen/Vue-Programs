@@ -16,7 +16,6 @@
   <div id="app">
 
 
-
     <div class="panel panel-primary">
       <div class="panel-heading">
         <h3 class="panel-title">添加品牌</h3>
@@ -29,11 +28,11 @@
 
         <label>
           Name:
-          <input type="text" class="form-control" v-model="name">
+          <input type="text" class="form-control" v-model="name" @keydown.enter="add()">
         </label>
 
         <!-- 在Vue中，使用事件绑定机制，为元素指定处理函数的时候，如果加了小括号，就可以给函数传参了 -->
-        <input type="button" value="添加" class="btn btn-primary" @click="add('hi')">
+        <input type="button" value="添加" class="btn btn-primary" @click="add()" >
 
         <label>
           搜索名称关键字：
@@ -41,8 +40,6 @@
         </label>
       </div>
     </div>
-
-
 
     <table class="table table-bordered table-hover table-striped">
       <thead>
@@ -54,9 +51,7 @@
         </tr>
       </thead>
       <tbody>
-        <!-- 之前， v-for 中的数据，都是直接从 data 上的list中直接渲染过来的 -->
-        <!-- 现在， 我们自定义了一个 search 方法，同时，把 所有的关键字，通过传参的形式，传递给了 search 方法 -->
-        <!-- 在 search 方法内部，通过 执行 for 循环， 把所有符合 搜索关键字的数据，保存到 一个新数组中，返回 -->
+
         <tr v-for="(item,index) in search()" :key="item.id">
           <td>{{ item.id }}</td>
           <td>{{ item.name }}</td>
@@ -66,8 +61,6 @@
       </tbody>
     </table>
 
-
-
   </div>
 
   <script>
@@ -75,62 +68,96 @@
     var vm = new Vue({
       el: '#app',
       data: {
-        id:"",
-        name:"",
-        keyword:"",
-        list:[
-          { id: 1, name: '奔驰', ctime: new Date() },
-          { id: 2, name: '宝马', ctime: new Date() },
-          { id: 3, name: '宝马', ctime: new Date() },
-          { id: 4, name: '宝马', ctime: new Date() },
-          { id: 5, name: '宝马', ctime: new Date() },
-          { id: 6, name: '宝马', ctime: new Date() },
-          { id: 7, name: '宝马', ctime: new Date() },
+        id: "",
+        name: "",
+        keyword: "",
+        list: [{
+            id: 1,
+            name: '奔驰',
+            ctime: new Date()
+          },
+          {
+            id: 2,
+            name: '宝马',
+            ctime: new Date()
+          },
+          {
+            id: 3,
+            name: '宝马',
+            ctime: new Date()
+          },
+          {
+            id: 4,
+            name: '宝马',
+            ctime: new Date()
+          },
+          {
+            id: 5,
+            name: '宝马',
+            ctime: new Date()
+          },
+          {
+            id: 6,
+            name: '宝马',
+            ctime: new Date()
+          },
+          {
+            id: 7,
+            name: '宝马',
+            ctime: new Date()
+          },
         ]
       },
+      created() {
+        this.getAllList()
+      },
       methods: {
-        add (a) {
+        getAllList() {
+          this.$http.get('http://www.liulongbin.top:3005/api/getprodlist').then((result) => {
+            if (result.status === 200) {
 
-          let car = {id:this.id ,name:this.name ,ctime:new Date().toLocaleDateString()}
+              this.list = result.body.message
 
-          this.list.push(car)
-
-          this.id = this.name = ''
-        },
-        del (id) {
-
-          // let i = this.list.findIndex( (item) => item.id == id)
-
-          // this.list.splice(i,1)
-
-          //ES6中新增的方法
-          // this.list.some((item)=> {
-          //   if(item.id == id) {
-          //     console.log(item.id)
-          //     this.list.splice(i,1)
-          //     return true
-          //   }
-          // })
-
-          // filter(function (item) {
-          //   //xxxxx
-          //   return true
-          // })
-        },
-        search () {
-          // ES6新方法 Object.prototype.includes()
-
-          return this.list.filter(item => item.name.includes(this.keyword.trim()))
-        },
-        getAllList () {
-          this.$http.get('').then((result)=>{
-            if(result.status === 0) {
-              // ok
             } else {
               // no
+              alert("数据获取失败")
+
             }
           })
         },
+        add() {
+
+          //接口插入后台数据
+          this.$http.post('http://www.liulongbin.top:3005/api/addproduct',
+          {name:this.name},{emulateJSON:true}).then(res => {
+            if(res.status === 200) {
+              this.getAllList()
+            } else {
+              alert("抱歉，添加失败!")
+            }
+          })
+
+        },
+        del(id) {
+
+          this.$http.get('http://www.liulongbin.top:3005/api/delproduct/'+id).then(res => {
+            if(res.status === 200) {
+              alert("删除成功!")
+
+              this.getAllList()
+            } else {
+              alert('数据删除失败!')
+            }
+          })
+
+        },
+        search() {
+          // ES6新方法 Object.prototype.includes()
+
+          return this.list.filter(item => item.name.includes(this.keyword.trim()))
+
+        },
+
       }
     })
   </script>
