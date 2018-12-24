@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="../../node_modules/vue/dist/vue.min.js"></script>
+  <style>
+    #round {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background-color: yellow;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+    <button @click="flag=!flag">屁屁月，我们走!</button>
+
+    <transition
+    @before-enter="beforeEnter"
+    @enter="enter"
+    @after-enter="afterEnter"
+    >
+      <div id='round' v-show='flag'></div>
+    </transition>
+
+
+
+
+  </div>
+  <script>
+    let vm = new Vue({
+      el: '#app',
+      data: {
+        flag:false
+      },
+      methods: {
+        //进入中
+        beforeEnter (el) {
+          el.style.transform = 'translate(0,0)'
+        },
+        enter (el,done) {
+          //这句话没有什么用，but 必须要加上。目前的解释是强制刷新
+          el.offsetHeight
+
+
+          el.style.transform = 'translate(100px,500px)'
+          el.style.transition = 'all 2s ease'
+
+          done()
+        },
+        afterEnter (el) {
+          this.flag=!this.flag
+        },
+
+      }
+    })
+  </script>
+</body>
+
+</html>

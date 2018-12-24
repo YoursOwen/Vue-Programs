@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="../../node_modules/vue/dist/vue.js"></script>
+  <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.css">
+  <!-- 需要用到Jquery吗？？？ -->
+  <script src="../../node_modules/vue-resource-1.3.4.js"></script>
+  <style>
+    .v-enter,
+    .v-leave-to {
+      opacity: 0;
+      transform: translateY(50px)
+    }
+
+    .v-enter-active,
+    .v-leave-active {
+      transition: all 0.5s ease;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="app">
+
+
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">添加品牌</h3>
+      </div>
+      <div class="panel-body form-inline">
+        <label>
+          Id:
+          <input type="text" class="form-control" v-model="id">
+        </label>
+
+        <label>
+          Name:
+          <input type="text" class="form-control" v-model="name" @keydown.enter="add()">
+        </label>
+
+        <!-- 在Vue中，使用事件绑定机制，为元素指定处理函数的时候，如果加了小括号，就可以给函数传参了 -->
+        <input type="button" value="添加" class="btn btn-primary" @click="add()">
+
+        <label>
+          搜索名称关键字：
+          <input type="text" class="form-control" v-model="keyword">
+        </label>
+      </div>
+    </div>
+
+    <table class="table table-bordered table-hover table-striped">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Name</th>
+          <th>Ctime</th>
+          <th>Operation</th>
+        </tr>
+      </thead>
+      <!-- <tbody -->
+<transition-group tag='tbody'>
+
+          <tr v-for="(item,index) in search()" :key="item.id">
+            <td>{{ item.id }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.ctime }}</td>
+            <td><a href="" @click.prevent="del(item.id)">删除</a></td>
+          </tr>
+
+        </transition-group>
+     <!-- </tbody> -->
+
+<!--
+      <transition-group tag='ul'>
+
+          <li v-for="(item,index) in search()" :key="item.id">
+            <span>{{ item.id }}</span>
+            <span>{{ item.name }}</span>
+            <span>{{ item.ctime }}</span>
+            <span><a href="" @click.prevent="del(item.id)">删除</a></span>
+          </li>
+
+        </transition-group> -->
+    </table>
+
+  </div>
+
+  <script>
+    // 创建 Vue 实例，得到 ViewModel
+    var vm = new Vue({
+      el: '#app',
+      data: {
+        id: "",
+        name: "",
+        keyword: "",
+        list: [{
+            id: 1,
+            name: '奔驰',
+            ctime: new Date()
+          },
+          {
+            id: 2,
+            name: '宝马',
+            ctime: new Date()
+          },
+          {
+            id: 3,
+            name: '宝马',
+            ctime: new Date()
+          },
+          {
+            id: 4,
+            name: '宝马',
+            ctime: new Date()
+          },
+          {
+            id: 5,
+            name: '宝马',
+            ctime: new Date()
+          },
+          {
+            id: 6,
+            name: '宝马',
+            ctime: new Date()
+          },
+          {
+            id: 7,
+            name: '宝马',
+            ctime: new Date()
+          },
+        ]
+      },
+      created() {
+        this.getAllList()
+      },
+      methods: {
+        getAllList() {
+          this.$http.get('http://www.liulongbin.top:3005/api/getprodlist').then((result) => {
+            if (result.status === 200) {
+
+              this.list = result.body.message
+
+            } else {
+              // no
+              alert("数据获取失败")
+
+            }
+          })
+        },
+        add() {
+
+          //接口插入后台数据
+          this.$http.post('http://www.liulongbin.top:3005/api/addproduct', {
+            name: this.name
+          }, {
+            emulateJSON: true
+          }).then(res => {
+            if (res.status === 200) {
+              this.getAllList()
+            } else {
+              alert("抱歉，添加失败!")
+            }
+          })
+
+        },
+        del(id) {
+
+          this.$http.get('http://www.liulongbin.top:3005/api/delproduct/' + id).then(res => {
+            if (res.status === 200) {
+              alert("删除成功!")
+
+              this.getAllList()
+            } else {
+              alert('数据删除失败!')
+            }
+          })
+
+        },
+        search() {
+          // ES6新方法 Object.prototype.includes()
+
+          return this.list.filter(item => item.name.includes(this.keyword.trim()))
+
+        },
+
+      }
+    })
+  </script>
+</body>
+
+</html>
