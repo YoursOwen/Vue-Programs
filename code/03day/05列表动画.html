@@ -64,7 +64,7 @@
       </thead>
       <!-- <tbody -->
 <transition-group tag='tbody'>
-
+<!-- Warnning! table表格在Html中属于强渲染类型，不会有enter|leave的生命周期，动画效果无法挂载 -->
           <tr v-for="(item,index) in search()" :key="item.id">
             <td>{{ item.id }}</td>
             <td>{{ item.name }}</td>
